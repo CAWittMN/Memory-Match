@@ -1,0 +1,245 @@
+html{
+  min-height: 100vh;
+}
+body {
+  margin: 0;
+  font-family: 'Montserrat', sans-serif;
+  background: rgb(24,74,121);
+  background: radial-gradient(circle, rgba(24,74,121,1) 61%, rgba(66,138,154,1) 76%, rgba(69,252,246,1) 100%);
+}
+#game-hud, h1 {
+  color: white;
+  display: flex;
+  gap: 10%;
+  height: 50px;
+  margin: 0;
+  flex-direction: row;
+  justify-content: center;
+  border: solid 2px black;
+  align-items: center;
+  background-color: rgb(240, 248, 255, 25%);
+}
+.digital {
+  font-family: 'Courier New', Courier, monospace;
+  font-weight: bold;
+  min-width: 30px;
+  background-color: black;
+  color: red;
+  font-size: 1.1em;
+  border-radius: 4px;
+}
+#start-button {
+  height: 30px;
+  border-radius: 100px;
+  border: none;
+  background-color: salmon;
+  color: white;
+  font-weight: bolder;
+  transition: 200ms;
+}
+#start-button:hover {
+  filter: brightness(110%);
+  transition: 200ms;
+}
+#difficulty {
+  font-family: 'Courier New', Courier, monospace;
+  min-height: 2em;
+  background-color: rgb(87, 88, 102);
+  color: white;
+  border-bottom: solid 2px salmon;
+  transition: 150ms;
+}
+#difficulty:hover {
+  background-color: rgb(115, 107, 107);
+  transition: 150ms;
+}
+hr {
+  border: solid 1px rgb(86, 103, 121);
+}
+#game {
+  margin: 50px auto;
+  display: grid;
+  grid-gap: 10px;
+  justify-content: center;
+}
+.easy {
+  grid-template-columns: repeat(4, auto);
+}
+.normal {
+  grid-template-columns: repeat(4, auto);
+}
+.hard {
+  grid-template-columns: repeat(6, auto);
+}
+.cardFace {
+  position: absolute;
+  width: 100%;
+  height: 100%;
+  overflow: hidden;
+  transition: transform 250ms ease-in-out;
+  backface-visibility: hidden;
+}
+.card {
+  position: relative;
+  width: 110px;
+  height: 150px;
+  border-radius: 12px;
+}
+.card:hover {
+  width: 102px;
+  height: 142px;
+  border: solid 4px greenyellow;
+  transition: 120ms;
+}
+.card.visible .cardFront {
+  transform: rotateY(0);
+}
+.card.visible .cardBack {
+  transform: rotateY(-180deg);
+}
+.card.matched .cardFace {
+  animation: pulse 500ms linear infinite 500ms;
+}
+.card.matched .cardFront {
+  transform: rotateY(0);
+}
+.card.matched .cardBack {
+  transform: rotateY(-180deg);
+}
+.pause {
+  pointer-events: none;
+}
+.cardBack {
+  border-radius: 12px;
+  position: absolute;
+  height: 100%;
+  width: 100%;
+  background: radial-gradient(circle, rgb(171, 171, 171) 0%, rgb(255, 255, 255) 50%);
+  filter:grayscale(20%);
+  transform: rotateY(0);
+}
+.cardFront {
+  border-radius: 12px;
+  position: absolute;
+  height: 100%;
+  width: 100%;
+  transform: rotateY(180deg);
+}
+.purple {
+  background: rgb(79,20,212);
+  background: radial-gradient(circle, rgba(79,20,212,1) 0%, rgba(197,67,255,1) 88%);
+}
+.red {
+  background: rgb(255,23,0);
+  background: radial-gradient(circle, rgba(255,23,0,1) 0%, rgba(255,67,132,1) 100%);
+}
+.yellow {
+  background: rgb(216, 184, 60);
+  background: radial-gradient(circle, rgb(224, 231, 33) 0%, rgb(255, 200, 0) 100%);
+}
+.green {
+  background: rgb(0, 255, 26);
+  background: radial-gradient(circle, rgb(62, 255, 33) 0%, rgb(0, 186, 62) 100%);
+}
+.black {
+  background: rgb(2,0,36);
+  background: radial-gradient(circle, rgb(2, 2, 5) 0%, rgb(40, 39, 38) 69%);
+}
+.white {
+  background: rgb(255,255,255);
+  background: radial-gradient(circle, rgba(255,255,255,1) 0%, rgba(207,207,207,1) 69%);
+}
+.brown {
+  background: rgb(73,46,22);
+  background: radial-gradient(circle, rgba(73,46,22,1) 0%, rgba(120,71,57,1) 69%);
+}
+.blue {
+  background: rgb(115,227,218);
+  background: radial-gradient(circle, rgba(115,227,218,1) 0%, rgba(47,154,185,1) 69%);
+}
+.darkBlue {
+  background: rgb(77,131,164);
+  background: radial-gradient(circle, rgba(77,131,164,1) 0%, rgba(24,90,238,1) 69%);
+}
+.teal {
+  background: rgb(85,179,160);
+  background: radial-gradient(circle, rgb(107, 223, 200) 0%, rgb(22, 199, 149) 69%);
+}
+.pink {
+  background: rgb(255,139,168);
+  background: radial-gradient(circle, rgba(255,139,168,1) 0%, rgb(251, 124, 255) 69%);
+}
+.darkGreen {
+  background: rgb(12,153,0);
+  background: radial-gradient(circle, rgba(12,153,0,1) 0%, rgba(18,98,0,1) 69%);
+}
+#win {
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  z-index: 100;
+  background-color: hsl(0, 0%, 0%, 75%);
+  justify-content: center;
+  display: none;
+  align-items: center;
+  flex-direction: column;
+  color: white;
+  position: fixed;
+  width: 100%;
+  min-height: 100%;
+  font-size: 4em;
+  transition: background-color 500ms, font-size 500ms;
+}
+#winning-text {
+  font-size: 1em;
+}
+#win.visible {
+  display: flex;
+  animation: overlay-grow 500ms forwards;
+}
+.no-display {
+  display: none;
+}
+#lose {
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  z-index: 100;
+  background-color: hsl(0, 0%, 0%, 75%);
+  justify-content: center;
+  display: none;
+  align-items: center;
+  flex-direction: column;
+  color: white;
+  position: fixed;
+  width: 100%;
+  min-height: 100%;
+  font-size: 4em;
+  transition: background-color 500ms, font-size 500ms;
+}
+#lose.visible {
+  display: flex;
+  animation: overlay-grow 500ms forwards;
+}
+@keyframes pulse {
+  0%, 100% {
+    filter: brightness(100%)
+  }
+  25% {
+    filter: brightness(90%)
+  }
+  75% {
+    filter: brightness(110%)
+  }
+}
+@keyframes overlay-grow {
+  from {
+    background-color: rgba(0, 0, 0, 0);
+    font-size: 0;
+  }
+  to {
+    background-color: rgba(0, 0, 0, .8);
+  }
+}
