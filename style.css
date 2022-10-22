@@ -1,23 +1,36 @@
 html{
   min-height: 100vh;
+  overflow: hidden;
+}
+* {
+  box-sizing: border-box;
 }
 body {
   margin: 0;
   font-family: 'Montserrat', sans-serif;
-  background: rgb(24,74,121);
-  background: radial-gradient(circle, rgba(24,74,121,1) 61%, rgba(66,138,154,1) 76%, rgba(69,252,246,1) 100%);
+  background-color: slategray;
+  user-select: none;
+  /*background: rgb(24,74,121);
+  background: radial-gradient(circle, rgba(24,74,121,1) 61%, rgba(66,138,154,1) 76%, rgba(69,252,246,1) 100%);*/
+}
+h1 {
+  margin-top: 25%;
+  transition: all 1000ms;
+  margin-bottom: 0;
+}
+h1.move {
+  margin-top: 10px;
 }
 #game-hud, h1 {
   color: white;
   display: flex;
+  height: 70px;
+  width: 66%;
   gap: 10%;
-  height: 50px;
-  margin: 0;
-  flex-direction: row;
+  margin-left: 16%;
   justify-content: center;
-  border: solid 2px black;
   align-items: center;
-  background-color: rgb(240, 248, 255, 25%);
+  background-color: rgba(18, 22, 26, 0.54);
 }
 .digital {
   font-family: 'Courier New', Courier, monospace;
@@ -27,40 +40,56 @@ body {
   color: red;
   font-size: 1.1em;
   border-radius: 4px;
+  text-align: center;
+  border-top: solid 2px rgba(85, 107, 47, 0.373);
 }
 #start-button {
   height: 30px;
+  min-width: 114px;
   border-radius: 100px;
-  border: none;
+  border: solid 1px rgb(177, 103, 95, 0);
   background-color: salmon;
   color: white;
   font-weight: bolder;
   transition: 200ms;
+  padding-top: 1px;
 }
 #start-button:hover {
   filter: brightness(110%);
-  transition: 200ms;
+  transition: all 200ms;
+  border: solid 1px rgb(127, 83, 77);
 }
 #difficulty {
   font-family: 'Courier New', Courier, monospace;
   min-height: 2em;
   background-color: rgb(87, 88, 102);
   color: white;
-  border-bottom: solid 2px salmon;
+  border: none;
+  border-radius: 4px;
   transition: 150ms;
+  text-align: center;
+  justify-content: center;
+  padding-top: 1px;
 }
 #difficulty:hover {
   background-color: rgb(115, 107, 107);
   transition: 150ms;
 }
-hr {
-  border: solid 1px rgb(86, 103, 121);
-}
 #game {
-  margin: 50px auto;
+  margin-top: 100px;
   display: grid;
   grid-gap: 10px;
   justify-content: center;
+  overflow: hidden;
+  position: relative;
+  align-items: center;
+  transition: all 1000ms ease-in-out;
+  perspective: 500px;
+}
+.hidden {
+  transform: translateY(200%);
+  margin: 400px;
+  transition: all 1000ms ease-in-out;
 }
 .easy {
   grid-template-columns: repeat(4, auto);
@@ -80,14 +109,16 @@ hr {
   backface-visibility: hidden;
 }
 .card {
+  border: solid 4px rgba(0, 191, 255, 0.201);
   position: relative;
   width: 110px;
   height: 150px;
-  border-radius: 12px;
+  transition: margin 1000ms ease-in-out;
+}
+.explode {
+ margin: 1000px;
 }
 .card:hover {
-  width: 102px;
-  height: 142px;
   border: solid 4px greenyellow;
   transition: 120ms;
 }
