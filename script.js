@@ -2,14 +2,14 @@ const gameContainer = document.getElementById("game");
 const topScoreCounter = document.querySelector("#top-score");
 const startButton = document.querySelector("button");
 
-const backgroundMusic = new Audio("bgmusic.mp3");
+const backgroundMusic = new Audio("/sounds/bgmusic.mp3");
 backgroundMusic.volume = 0.2;
-const noMatchSound = new Audio("nomatch.wav");
-const matchSound = new Audio("match.wav");
-const startSound = new Audio("start.wav");
-const victorySound = new Audio("victory.wav");
-const newRecordSound = new Audio("newrecord.mp3");
-const clearSound = new Audio("clear.wav");
+const noMatchSound = new Audio("/sounds/nomatch.wav");
+const matchSound = new Audio("/sounds/match.wav");
+const startSound = new Audio("/sounds/start.wav");
+const victorySound = new Audio("/sounds/victory.wav");
+const newRecordSound = new Audio("/sounds/newrecord.mp3");
+const clearSound = new Audio("/sounds/clear.wav");
 
 startButton.addEventListener("click", function (event) {
   gameStart();
