@@ -1,31 +1,39 @@
-
 const gameContainer = document.getElementById("game");
-const topScoreCounter = document.querySelector('#top-score');
+const topScoreCounter = document.querySelector("#top-score");
+const startButton = document.querySelector("button");
 
-document.querySelector("#start-button").addEventListener("click", function(event){
+const backgroundMusic = new Audio("bgmusic.mp3");
+backgroundMusic.volume = 0.2;
+const noMatchSound = new Audio("nomatch.wav");
+const matchSound = new Audio("match.wav");
+const startSound = new Audio("start.wav");
+const victorySound = new Audio("victory.wav");
+const newRecordSound = new Audio("newrecord.mp3");
+const clearSound = new Audio("clear.wav");
+
+startButton.addEventListener("click", function (event) {
   gameStart();
-})
-document.querySelector('#difficulty').addEventListener("change", function(event) {
-  document.querySelector('#top-score').innerText = topScore[event.target.value];
-})
+});
+document
+  .querySelector("#difficulty")
+  .addEventListener("change", function (event) {
+    topScoreCounter.innerText = topScore[event.target.value];
+  });
 
-
+let cards;
 let flipped;
 let colorOne;
 let colorTwo;
 let flips;
 let tries = 0;
 let numberOfCards;
-//let timer;
-let topScore = JSON.parse(localStorage.getItem('topScore'));
+let topScore = JSON.parse(localStorage.getItem("topScore"));
 if (topScore === null) {
   topScore = ["--", "--", "--"];
 }
 let difficulty;
 
-topScoreCounter.innerText= topScore[0]
-
-
+topScoreCounter.innerText = topScore[0];
 
 const COLORSeasy = [
   "red",
@@ -35,7 +43,7 @@ const COLORSeasy = [
   "red",
   "green",
   "yellow",
-  "purple"
+  "purple",
 ];
 
 const COLORSnormal = [
@@ -54,7 +62,7 @@ const COLORSnormal = [
   "purple",
   "brown",
   "pink",
-  "teal"
+  "teal",
 ];
 
 const COLORShard = [
@@ -81,8 +89,8 @@ const COLORShard = [
   "darkGreen",
   "darkGreen",
   "darkBlue",
-  "darkBlue"
-]
+  "darkBlue",
+];
 
 function shuffle(array) {
   let counter = array.length;
@@ -96,8 +104,6 @@ function shuffle(array) {
   return array;
 }
 
-
-
 function createDivsForColors(colorArray) {
   for (let color of colorArray) {
     const newCard = document.createElement("div");
@@ -106,9 +112,9 @@ function createDivsForColors(colorArray) {
 
     cardBack.classList.add("cardBack", "cardFace");
     cardFront.classList.add(color, "cardFront", "cardFace");
-    cardBack.setAttribute("data-color", color)
+    cardBack.setAttribute("data-color", color);
     cardBack.addEventListener("click", flipCard);
-    
+
     newCard.classList.add("card", "visible");
 
     newCard.append(cardBack);
@@ -117,73 +123,77 @@ function createDivsForColors(colorArray) {
   }
 }
 
-
 function gameStart() {
-  //timer = 100;
+  backgroundMusic.play();
+  startSound.play();
+  document.querySelector("h1").classList.add("move");
   let shuffledColors;
   difficulty = document.getElementById("difficulty").value;
   clearTheTable(gameContainer);
-  document.querySelector("button").innerText = "RESTART";
-  
-  if(difficulty == "0"){
+  startButton.innerText = "RESTART";
+
+  if (difficulty == "0") {
     gameContainer.classList.remove("hard", "normal");
     gameContainer.classList.add("easy");
     shuffledColors = shuffle(COLORSeasy);
     numberOfCards = COLORSeasy.length;
     topScoreCounter.innerText = topScore[0];
-  } else if(difficulty == "1"){
+  } else if (difficulty == "1") {
     gameContainer.classList.remove("hard", "easy");
     gameContainer.classList.add("normal");
     shuffledColors = shuffle(COLORSnormal);
     numberOfCards = COLORSnormal.length;
     topScoreCounter.innerText = topScore[1];
-  } else if(difficulty == "2"){
+  } else if (difficulty == "2") {
     gameContainer.classList.add("hard");
-    gameContainer.classList.remove("easy", "normal")
+    gameContainer.classList.remove("easy", "normal");
     shuffledColors = shuffle(COLORShard);
     numberOfCards = COLORShard.length;
     topScoreCounter.innerText = topScore[2];
   }
   createDivsForColors(shuffledColors);
-  setTimeout(function() {
+  cards = document.querySelectorAll(".card");
+  gameContainer.classList.remove("hidden", "explode");
+  setTimeout(function () {
     let sneekPeeks = document.querySelectorAll(".card");
     for (sneekPeek of sneekPeeks) {
       sneekPeek.classList.remove("visible");
     }
-  }, 750)
+  }, 1000);
 }
-
 
 function clearTheTable(parent) {
   flipped = 0;
   flips = 0;
   tries = 0;
-  topScoreCounter.innerText= topScore[difficulty];
+  gameContainer.classList.add("hidden")
+  topScoreCounter.innerText = topScore[difficulty];
   document.querySelector("#tries").innerText = `${tries}`;
-  document.querySelector("button").innerText = "START GAME";
   while (parent.firstChild) {
-    parent.removeChild(parent.firstChild);
-  };
+    parent.removeChild(parent.lastChild);
+  }
 }
 
-
 function flipCard(event) {
-  flips += 1
-  flipped += 1
+  const origFlip = document.getElementById("flip");
+  const newFlip = origFlip.cloneNode();
+  newFlip.play();
+  flips += 1;
+  flipped += 1;
   event.target.parentElement.classList.add("visible");
   if (flips < 2) {
     colorOne = event.target.dataset.color;
   } else {
     colorTwo = event.target.dataset.color;
-    checkFlippedCards(colorOne, colorTwo);
+    checkFlippedCards();
   }
 }
 
-
-function checkFlippedCards(cardOne, cardTwo) {
-  const triesCounter = document.querySelector('#tries');
-  if (colorOne === colorTwo){
+function checkFlippedCards() {
+  const triesCounter = document.querySelector("#tries");
+  if (colorOne === colorTwo) {
     tries += 1;
+    matchSound.play();
     triesCounter.innerText = `${tries}`;
     const matchedCards = document.querySelectorAll(".visible");
     for (matchedCard of matchedCards) {
@@ -192,7 +202,7 @@ function checkFlippedCards(cardOne, cardTwo) {
     }
     flips = 0;
     if (flipped === numberOfCards) {
-      victory()
+      victory();
     }
   } else {
     flips = 0;
@@ -203,52 +213,69 @@ function checkFlippedCards(cardOne, cardTwo) {
       clickBlocker.classList.add("pause");
     }
     setTimeout(function () {
+      noMatchSound.play();
       const visibleCards = document.querySelectorAll(".visible");
       for (clickBlocker of clickBlockers) {
         clickBlocker.classList.remove("pause");
       }
       for (visibleCard of visibleCards) {
         visibleCard.classList.remove("visible");
-      }}, 1000);
+      }
+    }, 1000);
     flipped -= 2;
   }
 }
 
-
 function victory() {
+  victorySound.play();
   winWindow = document.querySelector("#win");
   winWindow.classList.add("visible");
   document.querySelector("#new-record").classList.add("no-display");
-  document.querySelector("#winning-text").innerText = `In ${tries} attempts.`;
-  if (difficulty == "0" && (tries < topScore[0] || topScore[0] == "--")){
+  document.querySelector("#winning-text").innerText = `In ${tries} tries.`;
+  if (difficulty == "0" && (tries < topScore[0] || topScore[0] == "--")) {
     newRecord(0);
-  } else if (difficulty == "1" && (tries < topScore[1] || topScore[1] == "--")){
+  } else if (
+    difficulty == "1" &&
+    (tries < topScore[1] || topScore[1] == "--")
+  ) {
     newRecord(1);
-  } else if (difficulty == "2" && (tries < topScore[2] || topScore[2] == "--")){
+  } else if (
+    difficulty == "2" &&
+    (tries < topScore[2] || topScore[2] == "--")
+  ) {
     newRecord(2);
   }
-  setTimeout(function(){
-    winWindow.addEventListener("click", function(){
-      clearTheTable(gameContainer);
+  setTimeout(function () {
+    winWindow.addEventListener("click", function () {
+      for (card of cards) {
+        card.classList.add("explode");
+      }
+      clearSound.play();
+      startButton.innerText = "START GAME";
+      document.querySelector("h1").classList.remove("move");
       winWindow.classList.remove("visible");
+      setTimeout(function () {
+        clearTheTable(gameContainer);
+      }, 1000);
     });
   }, 2000);
 }
 
-function newRecord(index){
+function newRecord(index) {
+  newRecordSound.play();
   topScore.splice(index, 1, tries);
   document.querySelector("#new-record").classList.remove("no-display");
-  localStorage.setItem('topScore', JSON.stringify(topScore));
+  localStorage.setItem("topScore", JSON.stringify(topScore));
 }
 
-function lose() {
+/*function lose() {
   //timer= 100;
   loseWindow = document.querySelector("#lose");
   loseWindow.classList.add("visible");
-  setTimeout(function(){
-    loseWindow.addEventListener("click", function(){
+  setTimeout(function () {
+    loseWindow.addEventListener("click", function () {
       clearTheTable(gameContainer);
       loseWindow.classList.remove("visible");
     });
   }, 2000);
-}
+}*/
