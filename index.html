@@ -7,6 +7,10 @@
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Montserrat&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="style.css" />
+    <audio id="flip" src="flip.wav" preload="auto"></audio>
+    <audio id="no-match" src="nomatch.wav" preload="auto"></audio>
+    <audio id="match" src="match.wav" preload="auto"></audio>
+    <audio id="start" src="start.wav" preload="auto"></audio>
   </head>
   <body>
     <div id="win">
@@ -18,20 +22,18 @@
       <div id="game-title"><h1>Memory Game</h1></div>
       <div id="game-hud">
         <div id="game-options">
-          <button id="start-button">START GAME</button>
           <label for="difficulty">Difficulty:</label>
           <select id="difficulty" name="difficulty">
             <option id="easy-mode" value=0>EASY</option>
             <option id="normal-mode" value=1>NORMAL</option>
             <option id="hard-mode" value=2>HARD</option>
           </select>
+          <button id="start-button">START GAME</button>
         </div>
         <div id="attempts">Tries:<div id="tries" class="digital">0</div></div>
-        <!--<div id="timer">Time:<div class="digital" id="count-down">100</div></div>-->
         <div id="score">Top score:<div class="digital" id="top-score"></div></div>
       </div>
-        <hr>
-      <div id="game">
+      <div id="game" class="hidden">
       </div>
       <script src="script.js"></script>
     </div>
